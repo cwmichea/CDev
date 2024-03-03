@@ -14,10 +14,13 @@ const theme = {
     primary: 'Raleway, sans-serif',
     main: 'Arial, sans-serif',
     secondary: 'Georgia, serif',
+    alternative: 'Single Day, cursive',
   },
 };
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Single+Day&display=swap');
+
   body {
     font-family: ${theme.fonts.main};
     margin: 0;

@@ -1,20 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
+import myStrings from '../myIntroduction.json';// Myp subtitles convert it into db, part2
 import styled from "styled-components";
-import myStrings from '../myIntroduction.json';//part2
 import {theme} from '../GlobalStyles';
 
 const CanvasA = () => {
-  const canvasRef = useRef(null);
-  const [coordinates, setCoordinates] = useState({
-    pointA: { x: 0, y: 0 },
-    pointB: { x: 0, y: 0 },
-  });
-  const [initialPointA, setInitialPointA] = useState({ x: 0, y: 0 });
-  const animationRef = useRef(null);
-
-  const [currentIndex, setCurrentIndex] = useState(0);//part2
-
+/// Myp subtitles part2
+  const [currentIndex, setCurrentIndex] = useState(0);
   useEffect(() => {
+    
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => {
         const newIndex = prevIndex + 1;
@@ -28,6 +21,15 @@ const CanvasA = () => {
 
     return () => clearInterval(timer);
   }, []);
+/// MyCanvas 
+  const canvasRef = useRef(null);
+  const [coordinates, setCoordinates] = useState({
+    pointA: { x: 0, y: 0 },
+    pointB: { x: 0, y: 0 },
+  });
+  // Animation
+  const [initialPointA, setInitialPointA] = useState({ x: 0, y: 0 });
+  const animationRef = useRef(null);
 
   useEffect(() => {
 
@@ -36,12 +38,12 @@ const CanvasA = () => {
 
     const shapes = [];
     const numShapes = 35;
-    const shapeRadius = 9;
-    const circleRadius = 4;
-    const numLines = 2;
-    const repulsionRadius = 77;
-    const lineColor = "white";
-    const lightLineColor = "lightgrey";
+    const shapeRadius = 9; //stars
+    const circleRadius = 4; //cicles
+    const repulsionRadius = 77;//limit to draw the line
+    const lineColor = "lightgrey";
+    // const lightLineColor = "lightgrey";
+    // const numLines = 2;
     const starColor = "yellow";
     const bgColor = "black";
 
@@ -62,13 +64,11 @@ const CanvasA = () => {
       ctx.closePath();
     };
 
-    const drawStar = (x, y, radius, color, rotationAngle, glowFactor) => {
+    const drawStar = (x, y, radius, color, glowFactor) => {
       ctx.save();
       ctx.translate(x, y);
-      ctx.rotate(rotationAngle);
       const scaledRadius = radius + glowFactor * Math.sin(Date.now() / 1000);
       ctx.scale(scaledRadius, scaledRadius);
-
       ctx.beginPath();
       for (let i = 0; i < 5; i++) {
         const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
@@ -93,10 +93,11 @@ const CanvasA = () => {
       return Math.sqrt(dx * dx + dy * dy);
     };
 
-    const animate = () => {
+    const animate = () => {//paint this every mili seconds
+    //draw background  
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+    // draw the stars and circles
       shapes.forEach((shape) => {
         if (shape.isStar) {
           drawStar(
@@ -104,7 +105,6 @@ const CanvasA = () => {
             shape.y,
             shapeRadius,
             starColor,
-            shape.rotationAngle,
             shape.glowFactor
           );
           shape.glowFactor = 2.2 * Math.sin(Date.now() / 1000);
@@ -113,30 +113,9 @@ const CanvasA = () => {
         }
       });
 
-      for (let i = 0; i < numLines; i++) {
-        const startShape = shapes[Math.floor(Math.random() * shapes.length)];
-        const endShape = shapes[Math.floor(Math.random() * shapes.length)];
-
-        const dist = distance(
-          startShape.x,
-          startShape.y,
-          endShape.x,
-          endShape.y
-        );
-
-        if (dist < repulsionRadius) {
-          drawLine(
-            startShape.x,
-            startShape.y,
-            endShape.x,
-            endShape.y,
-            lightLineColor
-          );
-        }
-      }
-
-      for (let i = 0; i < shapes.length - 4; i++) {
-        for (let j = i + 1; j < shapes.length - 4; j++) {
+      //static lines for constellations
+      for (let i = 0; i < shapes.length - 3; i++) {
+        for (let j = i + 1; j < shapes.length - 3; j++) {
           const dist = distance(
             shapes[i].x,
             shapes[i].y,
@@ -157,7 +136,8 @@ const CanvasA = () => {
       }
 
       requestAnimationFrame(animate);
-    };
+    };//end of animate
+
     //number of circles based on numShapes proportion 3/4
     for (let i = 0; i < (3 * numShapes) / 4; i++) {
       shapes.push({
@@ -166,7 +146,7 @@ const CanvasA = () => {
         isStar: false,
       });
     }
-    //number of circles based on numShapes proportion 1/4
+    //number of stars based on numShapes proportion 1/4
     for (let i = 0; i < numShapes / 4; i++) {
       shapes.push({
         x: Math.random() * canvas.width,
@@ -179,14 +159,81 @@ const CanvasA = () => {
 
     return () => {};
   }, []); // Empty dependency array ensures useEffect runs once
-
-  const handleCanvasClick = () => {
-    const newPointA = generateRandomPosition();
-    const newPointB = { ...newPointA };
-    setInitialPointA(newPointA);
-    animateCircles(newPointA, newPointB);
+/// for shooting star animation when user clicks
+  const generateRandomPosition = () => {
+    const canvas = canvasRef.current;
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height;
+    if (x <= canvas.width / 4) {
+      x += canvas.width / 4;
+    }
+    if (y >= canvas.height / 5) {
+      y -= canvas.height / 5;
+    }
+    return { x, y };
   };
+  /// 
+  
+  const drawShootingStar = (pointA, pointB, newPointA) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
+    // ctx.beginPath();
+    // ctx.moveTo(initialPointA.x, initialPointA.y);
+    // ctx.lineTo(pointA.x, pointA.y);
+    // ctx.strokeStyle = "black";
+    // ctx.lineWidth = 1;
+    // ctx.stroke();
+  ///trail of star
+    ctx.beginPath();
+    ctx.moveTo(initialPointA.x + 1, initialPointA.y + 1);
+    ctx.lineTo(pointA.x + 4, pointA.y + 4);
+    ctx.strokeStyle = "yellow";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  ///trail of star
+    ctx.beginPath();
+    ctx.moveTo(initialPointA.x - 1, initialPointA.y - 1);
+    ctx.lineTo(pointA.x - 4, pointA.y - 4);
+    ctx.strokeStyle = "yellow";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  ///star
+    ctx.save();
+    ctx.translate(pointB.x, pointB.y);
+    const scaledRadius = 12 + 2 * Math.sin(Date.now() / 1000);
+    ctx.scale(scaledRadius, scaledRadius);
+    ctx.beginPath();
+    for (let i = 0; i < 5; i++) {
+      const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+      const x_i = Math.cos(angle);
+      const y_i = Math.sin(angle);
+      ctx.lineTo(x_i, y_i);
+      const innerAngle = angle + Math.PI / 5;
+      const x_inner = 0.5 * Math.cos(innerAngle);
+      const y_inner = 0.5 * Math.sin(innerAngle);
+      ctx.lineTo(x_inner, y_inner);
+    }
+    ctx.closePath();
+    ctx.fillStyle = "yellow";
+    ctx.fill();
+  ///endstart
+    ctx.restore();
+    // ctx.beginPath();
+    // ctx.moveTo(pointA.x, pointA.y);
+    // ctx.lineTo(pointB.x, pointB.y);
+    // ctx.strokeStyle = "cyan";
+    // ctx.lineWidth = 19;
+    // ctx.stroke();
+
+    // ctx.beginPath();
+    // ctx.moveTo(pointB.x, pointB.y);
+    // ctx.lineTo(newPointA.x, newPointA.y);
+    // ctx.strokeStyle = "red";
+    // ctx.lineWidth = 1;
+    // ctx.stroke();
+  };
+  // const canvasWidth = `calc(${window.innerWidth}px - 20px)`;
   const animateCircles = (newPointA, newPointB) => {
     const startTime = Date.now();
     const duration = 400;
@@ -223,7 +270,7 @@ const CanvasA = () => {
 
         animationRef.current = requestAnimationFrame(animate);
       } else {
-        drawShootingStar(newPointA, newPointB, newPointA, newPointB);
+        drawShootingStar(newPointA, newPointB, newPointA);
         setCoordinates({
           pointA: newPointA,
           pointB: newPointB,
@@ -233,96 +280,20 @@ const CanvasA = () => {
 
     animationRef.current = requestAnimationFrame(animate);
   };
-
-  const generateRandomPosition = () => {
-    const canvas = canvasRef.current;
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height;
-    if (x <= canvas.width / 4) {
-      x += canvas.width / 4;
-    }
-    if (y >= canvas.height / 5) {
-      y -= canvas.height / 5;
-    }
-    return { x, y };
+  ///
+  const handleCanvasClick = () => {
+    const newPointA = generateRandomPosition();
+    const newPointB = { ...newPointA };
+    setInitialPointA(newPointA);
+    animateCircles(newPointA, newPointB);
   };
 
-  const drawShootingStar = (pointA, pointB, newPointA, newPointB) => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-
-    ctx.beginPath();
-    ctx.moveTo(initialPointA.x, initialPointA.y);
-    ctx.lineTo(pointA.x, pointA.y);
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(initialPointA.x + 1, initialPointA.y + 1);
-    ctx.lineTo(pointA.x + 4, pointA.y + 4);
-    ctx.strokeStyle = "yellow";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(initialPointA.x - 1, initialPointA.y - 1);
-    ctx.lineTo(pointA.x - 4, pointA.y - 4);
-    ctx.strokeStyle = "yellow";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    //circle
-    // ctx.beginPath();
-    // ctx.arc(pointA.x, pointA.y, 8, 0, 2 * Math.PI);
-    // ctx.fillStyle = "red";
-    // ctx.fill();
-
-    // ctx.beginPath();
-    // ctx.arc(pointB.x, pointB.y, 7, 0, 2 * Math.PI);
-    // ctx.fillStyle = "yellow";
-    // ctx.fill();
-    //star
-    ctx.save();
-    ctx.translate(pointB.x, pointB.y);
-    const scaledRadius = 12 + 2 * Math.sin(Date.now() / 1000);
-    ctx.scale(scaledRadius, scaledRadius);
-    ctx.beginPath();
-    for (let i = 0; i < 5; i++) {
-      const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
-      const x_i = Math.cos(angle);
-      const y_i = Math.sin(angle);
-      ctx.lineTo(x_i, y_i);
-      const innerAngle = angle + Math.PI / 5;
-      const x_inner = 0.5 * Math.cos(innerAngle);
-      const y_inner = 0.5 * Math.sin(innerAngle);
-      ctx.lineTo(x_inner, y_inner);
-    }
-    ctx.closePath();
-    ctx.fillStyle = "yellow";
-    ctx.fill();
-    //endstart
-
-    ctx.restore();
-    ctx.beginPath();
-    ctx.moveTo(pointA.x, pointA.y);
-    ctx.lineTo(pointB.x, pointB.y);
-    ctx.strokeStyle = "yellow";
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(pointB.x, pointB.y);
-    ctx.lineTo(newPointA.x, newPointA.y);
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  };
 
   return (<Mydiv style={{ position: "relative" }}>
     <Mycanvas
       ref={canvasRef}
       onClick={handleCanvasClick}
-      style={{ background: "transparent" }}
+      // style={{ background: "transparent" }}
       width={window.innerWidth}
       height={window.innerHeight}
     ></Mycanvas>      
@@ -348,22 +319,25 @@ const Myh1 = styled.h1`
   position: absolute;
   color: white;
   top: 15%;
-  left: 5%;
+  left: 7%;
   margin: 0;
   z-index: 1;
   pointer-events: none; // Make the h1 element transparent for user interactions
   font-family: ${theme.fonts.primary};
+  font-family: ${theme.fonts.alternative};
+  font-size: 35px;
   `;
 
 const Myp = styled.p`
   position: absolute;
   color: white;
   top: 22%;
-  left: 5%;
+  left: 7%;
   margin: 0;
   z-index: 1;
   pointer-events: none; // Make the h1 element transparent for user interactions
   color: white;
   font-family: ${theme.fonts.primary};
+  font-size: large;
 `;
 export default CanvasA;
