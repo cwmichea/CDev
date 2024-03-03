@@ -174,16 +174,9 @@ const CanvasA = () => {
   };
   /// 
   
-  const drawShootingStar = (pointA, pointB, newPointA) => {
+  const drawShootingStar = (pointA, pointB) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
-    // ctx.beginPath();
-    // ctx.moveTo(initialPointA.x, initialPointA.y);
-    // ctx.lineTo(pointA.x, pointA.y);
-    // ctx.strokeStyle = "black";
-    // ctx.lineWidth = 1;
-    // ctx.stroke();
   ///trail of star
     ctx.beginPath();
     ctx.moveTo(initialPointA.x + 1, initialPointA.y + 1);
@@ -217,23 +210,9 @@ const CanvasA = () => {
     ctx.closePath();
     ctx.fillStyle = "yellow";
     ctx.fill();
-  ///endstart
     ctx.restore();
-    // ctx.beginPath();
-    // ctx.moveTo(pointA.x, pointA.y);
-    // ctx.lineTo(pointB.x, pointB.y);
-    // ctx.strokeStyle = "cyan";
-    // ctx.lineWidth = 19;
-    // ctx.stroke();
-
-    // ctx.beginPath();
-    // ctx.moveTo(pointB.x, pointB.y);
-    // ctx.lineTo(newPointA.x, newPointA.y);
-    // ctx.strokeStyle = "red";
-    // ctx.lineWidth = 1;
-    // ctx.stroke();
   };
-  // const canvasWidth = `calc(${window.innerWidth}px - 20px)`;
+
   const animateCircles = (newPointA, newPointB) => {
     const startTime = Date.now();
     const duration = 400;
@@ -261,7 +240,7 @@ const CanvasA = () => {
             (newPointB.y - coordinates.pointB.y) * progress,
         };
 
-        drawShootingStar(currentPointA, currentPointB, newPointA, newPointB);
+        drawShootingStar(currentPointA, currentPointB);
 
         setCoordinates({
           pointA: currentPointA,
@@ -270,7 +249,7 @@ const CanvasA = () => {
 
         animationRef.current = requestAnimationFrame(animate);
       } else {
-        drawShootingStar(newPointA, newPointB, newPointA);
+        drawShootingStar(newPointA, newPointB);
         setCoordinates({
           pointA: newPointA,
           pointB: newPointB,
