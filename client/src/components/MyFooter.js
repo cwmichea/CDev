@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {theme} from '../GlobalStyles';
 import clogo from '../images/clogo.png';
 
-const MyNav = () => {
+const MyFooter = () => {
   
   return (
     <NavContainer>
@@ -86,4 +86,4 @@ const NavLinkStyled = styled(NavLink)`
     color: ${theme.palette.yellow};
   }
 `;
-export default MyNav;
+export default MyFooter;

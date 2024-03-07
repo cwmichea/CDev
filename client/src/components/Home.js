@@ -1,19 +1,20 @@
 // Home.js
 import React from 'react';
-import Canvas from './Canvas';
 import CanvasA from './CanvasA';
-import CanvasB from './CanvasB';
-import CanvasC from './CanvasC';
+import IntroText from './IntroText';
+import styled, { keyframes } from 'styled-components';
 
 const Home = () => {
   return (
-    <div>
-      {/* <Canvas/> */}
+    <Adiv>
       <CanvasA/>
-      {/* <CanvasB/> */}
-      {/* <CanvasC/> */}
-    </div>
+      <IntroText/>
+    </Adiv>
   );
 };
 
+const Adiv  = styled.div`
+  //  border: 1px blue solid;
+   margin-bottom: 0px
+`
 export default Home;

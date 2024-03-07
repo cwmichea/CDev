@@ -9,6 +9,7 @@ const theme = {
     color1Light: '#9b59b6',
     color2Light: '#34495e',
     primaryLight: '#3498db',
+    yellow: '#fcca02',
   },
   fonts: {
     primary: 'Raleway, sans-serif',

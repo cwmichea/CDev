@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import myStrings from '../myIntroduction.json';// Myp subtitles convert it into db, part2
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import {theme} from '../GlobalStyles';
+import bunny from '../images/bunny1(1).png';
 
 const CanvasA = () => {
 /// Myp subtitles part2
@@ -44,8 +45,21 @@ const CanvasA = () => {
     const lineColor = "lightgrey";
     // const lightLineColor = "lightgrey";
     // const numLines = 2;
-    const starColor = "yellow";
+    // const starColor = "yellow";
+    const starColor = theme.palette.yellow;
     const bgColor = "black";
+
+    const drawMoon = (x, y, outerRadius, innerRadius, moonColor) => {
+      ctx.beginPath();
+      ctx.arc(x, y, outerRadius, 0, Math.PI * 2);
+      ctx.fillStyle = moonColor;
+      ctx.fill();
+      // Draw a completely black circle behind the main moon shape
+      ctx.beginPath();
+      ctx.arc(x - (outerRadius - innerRadius) - 5, y - 7, outerRadius, 0, Math.PI * 2);
+      ctx.fillStyle = "black";
+      ctx.fill();
+    };
 
     const drawCircle = (x, y, radius, color) => {
       ctx.beginPath();
@@ -99,6 +113,7 @@ const CanvasA = () => {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     // draw the stars and circles
       shapes.forEach((shape) => {
+
         if (shape.isStar) {
           drawStar(
             shape.x,
@@ -109,7 +124,11 @@ const CanvasA = () => {
           );
           shape.glowFactor = 2.2 * Math.sin(Date.now() / 1000);
         } else {
-          drawCircle(shape.x, shape.y, circleRadius, "white");
+          if (shape.isMoon) {
+            // Drawing the moon
+             drawMoon(canvas.width - 150, 100, 40, 35, "white"); // 
+          }else{
+          drawCircle(shape.x, shape.y, circleRadius, "white");}
         }
       });
 
@@ -138,6 +157,13 @@ const CanvasA = () => {
       requestAnimationFrame(animate);
     };//end of animate
 
+    //just one moon 
+    shapes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        isMoon: true,
+    });
+    
     //number of circles based on numShapes proportion 3/4
     for (let i = 0; i < (3 * numShapes) / 4; i++) {
       shapes.push({
@@ -154,11 +180,11 @@ const CanvasA = () => {
         isStar: true,
       });
     }
-
     animate();
 
     return () => {};
   }, []); // Empty dependency array ensures useEffect runs once
+
 /// for shooting star animation when user clicks
   const generateRandomPosition = () => {
     const canvas = canvasRef.current;
@@ -172,8 +198,7 @@ const CanvasA = () => {
     }
     return { x, y };
   };
-  /// 
-  
+
   const drawShootingStar = (pointA, pointB) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -181,14 +206,16 @@ const CanvasA = () => {
     ctx.beginPath();
     ctx.moveTo(initialPointA.x + 1, initialPointA.y + 1);
     ctx.lineTo(pointA.x + 4, pointA.y + 4);
-    ctx.strokeStyle = "yellow";
+    // ctx.strokeStyle = "yellow";
+    ctx.strokeStyle = theme.palette.yellow;
     ctx.lineWidth = 1;
     ctx.stroke();
   ///trail of star
     ctx.beginPath();
     ctx.moveTo(initialPointA.x - 1, initialPointA.y - 1);
     ctx.lineTo(pointA.x - 4, pointA.y - 4);
-    ctx.strokeStyle = "yellow";
+    // ctx.strokeStyle = "yellow";
+    ctx.strokeStyle = theme.palette.yellow;
     ctx.lineWidth = 1;
     ctx.stroke();
   ///star
@@ -208,7 +235,8 @@ const CanvasA = () => {
       ctx.lineTo(x_inner, y_inner);
     }
     ctx.closePath();
-    ctx.fillStyle = "yellow";
+    // ctx.fillStyle = "yellow";
+    ctx.fillStyle = theme.palette.yellow;
     ctx.fill();
     ctx.restore();
   };
@@ -241,7 +269,6 @@ const CanvasA = () => {
         };
 
         drawShootingStar(currentPointA, currentPointB);
-
         setCoordinates({
           pointA: currentPointA,
           pointB: currentPointB,
@@ -259,7 +286,7 @@ const CanvasA = () => {
 
     animationRef.current = requestAnimationFrame(animate);
   };
-  ///
+  ///from onClick
   const handleCanvasClick = () => {
     const newPointA = generateRandomPosition();
     const newPointB = { ...newPointA };
@@ -267,46 +294,53 @@ const CanvasA = () => {
     animateCircles(newPointA, newPointB);
   };
 
+  // Dynamically update canvas width on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        canvas.width = window.innerWidth;
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (<Mydiv style={{ position: "relative" }}>
     <Mycanvas
       ref={canvasRef}
       onClick={handleCanvasClick}
-      // style={{ background: "transparent" }}
       width={window.innerWidth}
       height={window.innerHeight}
     ></Mycanvas>      
-    {/* part2 */}
-    <Myh1 >
-    Hey there, I'm Chris
-  </Myh1>
-  <Myp>{myStrings.description[currentIndex]}</Myp>
+    <Myimg src={bunny} alt='C logo' height='152px'/>
+
+  {/* <Myp>{myStrings.description[currentIndex]}</Myp> */}
   </Mydiv>
   );
 };
 
-
 const Mydiv = styled.div`
   position: relative;
+  height: calc(100vh - 69px);
+  background-color: black;
+  // border: 1px red solid;
+  margin-bottom: 0px;
 `;
 
 const Mycanvas = styled.canvas`
   background: transparent;
+  height: calc(100% );
+  width: calc(100% - 0px);
 `;
 
-const Myh1 = styled.h1`
+const Myimg = styled.img`
   position: absolute;
-  color: white;
-  top: 15%;
-  left: 7%;
-  margin: 0;
-  z-index: 1;
-  pointer-events: none; // Make the h1 element transparent for user interactions
-  font-family: ${theme.fonts.primary};
-  font-family: ${theme.fonts.alternative};
-  font-size: 35px;
-  `;
-
+  // border: 2px red solid;
+  bottom: 0px;
+  right: 0px;
+`
 const Myp = styled.p`
   position: absolute;
   color: white;
@@ -319,4 +353,6 @@ const Myp = styled.p`
   font-family: ${theme.fonts.primary};
   font-size: large;
 `;
+
+
 export default CanvasA;
