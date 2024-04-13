@@ -74,3 +74,18 @@ const Styledp = styled.p`
 `;
 
 export default IntroText;
+// useEffect(() => {
+    
+//   const timer = setInterval(() => {
+//     setCurrentIndex((prevIndex) => {
+//       const newIndex = prevIndex + 1;
+
+//       // If the newIndex is equal to the length of the array, reset it to 0
+//       const resetIndex = newIndex === myStrings.description.length ? 0 : newIndex;
+
+//       return resetIndex;
+//     });
+//   }, 7000);
+
+//   return () => clearInterval(timer);
+// }, []);

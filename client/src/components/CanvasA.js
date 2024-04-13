@@ -1,27 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import myStrings from '../myIntroduction.json';// Myp subtitles convert it into db, part2
 import styled, { keyframes } from "styled-components";
 import {theme} from '../GlobalStyles';
-import bunny from '../images/bunny1(1).png';
+// import bunny from '../images/bunny1(1).png';
+// import bunny from '../images/bunny1(2).png';
+import bunny from '../images/bunny1(3).png';
 
 const CanvasA = () => {
 /// Myp subtitles part2
   const [currentIndex, setCurrentIndex] = useState(0);
-  useEffect(() => {
-    
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const newIndex = prevIndex + 1;
+  const [canvasSize, setCanvasSize] = useState(true);
 
-        // If the newIndex is equal to the length of the array, reset it to 0
-        const resetIndex = newIndex === myStrings.description.length ? 0 : newIndex;
-
-        return resetIndex;
-      });
-    }, 7000);
-
-    return () => clearInterval(timer);
-  }, []);
+/// MyCanvas 
 /// MyCanvas 
   const canvasRef = useRef(null);
   const [coordinates, setCoordinates] = useState({
@@ -156,6 +145,7 @@ const CanvasA = () => {
 
       requestAnimationFrame(animate);
     };//end of animate
+    // const animationFrame = requestAnimationFrame(animate);
 
     //just one moon 
     shapes.push({
@@ -182,8 +172,9 @@ const CanvasA = () => {
     }
     animate();
 
-    return () => {};
-  }, []); // Empty dependency array ensures useEffect runs once
+    // return () => cancelAnimationFrame(animationFrame);
+     return () => {};
+  }, [canvasSize]); // Empty dependency array ensures useEffect runs once
 
 /// for shooting star animation when user clicks
   const generateRandomPosition = () => {
@@ -300,6 +291,7 @@ const CanvasA = () => {
       const canvas = canvasRef.current;
       if (canvas) {
         canvas.width = window.innerWidth;
+        setCanvasSize(canvasSize => !canvasSize);
       }
     };
 
