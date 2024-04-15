@@ -1,6 +1,46 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Logic to handle form submission
+  };
+
+  const isFormValid = name !== '' && email !== '' && message !== '';
+
+  return (
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextArea
+          placeholder="Message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <SubmitButton type="submit" disabled={!isFormValid}>
+          Submit
+        </SubmitButton>
+      </Form>
+    </Container>
+  );
+};
+
 // Keyframe for button animation
 const buttonAnimation = keyframes`
   0% {
@@ -69,45 +109,5 @@ const SubmitButton = styled.button`
     animation: ${buttonAnimation} 0.5s forwards; /* Button animation on hover */
   }
 `;
-
-const Contact = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Logic to handle form submission
-  };
-
-  const isFormValid = name !== '' && email !== '' && message !== '';
-
-  return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextArea
-          placeholder="Message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <SubmitButton type="submit" disabled={!isFormValid}>
-          Submit
-        </SubmitButton>
-      </Form>
-    </Container>
-  );
-};
 
 export default Contact;

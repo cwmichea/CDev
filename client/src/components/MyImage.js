@@ -2,25 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import mePic from '../images/mePic.png'
 
-// Styled components
-const ImageContainer = styled.div`
-  display: flex;
-  position: absolute;
-  left: 15%;
-  top: 45%
-`;
-
-const Image = styled.img`
-  border: 1px white solid;
-  border-radius: 50%;
-  width: 255px; /* Adjust size as needed */
-  height: 280px; /* Adjust size as needed */
-  // height: auto; /* Maintain aspect ratio */
-  // opacity: 0; /* Initially set opacity to 0 */
-  transition: opacity 1s ease; /* Add transition effect for opacity */
-  ${({ loaded }) => loaded && 'opacity: 1;'} /* Set opacity to 1 if loaded */
-`;
-
 const MyImage = () => {
   const [loaded, setLoaded] = useState(false);
 
@@ -54,5 +35,24 @@ const MyImage = () => {
     </ImageContainer>
   );
 };
+
+// Styled components
+const ImageContainer = styled.div`
+  display: flex;
+  position: absolute;
+  left: 15%;
+  top: 45%
+`;
+
+const Image = styled.img`
+  border: 1px white solid;
+  border-radius: 50%;
+  width: 255px; /* Adjust size as needed */
+  height: 280px; /* Adjust size as needed */
+  // height: auto; /* Maintain aspect ratio */
+  // opacity: 0; /* Initially set opacity to 0 */
+  transition: opacity 1s ease; /* Add transition effect for opacity */
+  ${({ loaded }) => loaded && 'opacity: 1;'} /* Set opacity to 1 if loaded */
+`;
 
 export default MyImage;

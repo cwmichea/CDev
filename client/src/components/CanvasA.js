@@ -5,12 +5,12 @@ import {theme} from '../GlobalStyles';
 // import bunny from '../images/bunny1(2).png';
 import bunny from '../images/bunny1(3).png';
 
-const CanvasA = () => {
+const CanvasA = ({color, fullMoon}) => {
 /// Myp subtitles part2
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [bColor, setBColor] = useState(color);
+  const [isFullMoon, setisFullMoon] = useState(fullMoon);
   const [canvasSize, setCanvasSize] = useState(true);
 
-/// MyCanvas 
 /// MyCanvas 
   const canvasRef = useRef(null);
   const [coordinates, setCoordinates] = useState({
@@ -36,18 +36,20 @@ const CanvasA = () => {
     // const numLines = 2;
     // const starColor = "yellow";
     const starColor = theme.palette.yellow;
-    const bgColor = "black";
+    const bgColor = bColor ? bColor : "black";
 
     const drawMoon = (x, y, outerRadius, innerRadius, moonColor) => {
       ctx.beginPath();
       ctx.arc(x, y, outerRadius, 0, Math.PI * 2);
       ctx.fillStyle = moonColor;
       ctx.fill();
-      // Draw a completely black circle behind the main moon shape
-      ctx.beginPath();
-      ctx.arc(x - (outerRadius - innerRadius) - 5, y - 7, outerRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "black";
-      ctx.fill();
+      // Draw a completely black circle over the main moon shape
+      if (!fullMoon) {
+        ctx.beginPath();
+        ctx.arc(x - (outerRadius - innerRadius) - 5, y - 7, outerRadius, 0, Math.PI * 2);
+        ctx.fillStyle = bColor ? bColor : "black";//shadow over moon
+        ctx.fill();
+      }
     };
 
     const drawCircle = (x, y, radius, color) => {
