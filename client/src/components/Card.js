@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { Link, NavLink } from 'react-router-dom';
 // Card component to display each project
 const Card = ({ project }) => {
   return (
@@ -9,7 +9,9 @@ const Card = ({ project }) => {
         <img src={project.image} alt={project.title} />
       </ImageContainer>
       <h3>{project.title}</h3>
-      <a href={project.link}>View Project</a>
+      {/* <a href={project.link}>View Project</a> */}
+      <Link to={project.link}>Go to Simon Game</Link>
+      <NavLink to={project.link}>Go to Simon Game</NavLink>
     </CardContainer>
   );
 };

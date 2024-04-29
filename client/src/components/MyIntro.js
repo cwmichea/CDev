@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import MyImage from './MyImage';
 import KnowMoreButton from './KnowMoreButton';
 import IntroText from './IntroText';
+import aStar from '../images/welcomestar.svg'
+//array
+import aSvg from '../images/chile.svg'
+import aWelcome from '../images/awelcome.svg'
+
+const imgArray = [aSvg, aWelcome]
 
 export default function MyIntro() {
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -23,17 +29,28 @@ export default function MyIntro() {
       <KnowMoreButton/>
       {show && <MyImage/>}
       <IntroText/>
+      {/* <img src={aSvg}  alt="Chile" width='300px'/> */}
+      <img src={aStar} alt="Chile" width='270px' style={{
+        position: "absolute", top:"33%", zIndex:"0"
+        }}/>
+      <img src={aStar} alt="Chile" width='70px' 
+      style={{zIndex:"10" , position: "absolute", top:"63%", left:"54%"
+    }}
+      /><br/>
+      {/* <img src={aStar} alt="Chile" width='20px' /> */}
+      {/* // style={{position:"absolute", top:}} */}
+      {/* <img src={aWelcome} alt="Chile" /> */}
     </Div>
   )
 }
 
 const Div = styled.div`
-@media screen and (max-width: 480px){ // replace by dynamic value
-  width : 80vw;
-  position: absolute;
-  border: blue solid 10px;
-  top: 90px;
-}
+  @media screen and (max-width: 480px){ // replace by dynamic value
+    width : 80vw;
+    position: absolute;
+    border: blue solid 10px;
+    top: 90px;
+  }
  height: ${props => props.height}px;
  width : 50vw;
  border: red solid 10px;
@@ -44,7 +61,4 @@ const Div = styled.div`
 //  background: linear-gradient(to bottom, #676767 60%, black);
 //  border: red 1px solid;
 //  box-sizing: 
-
-
-
 `

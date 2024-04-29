@@ -26,9 +26,9 @@ const ProjectMenu = () => {
         const imageUrl3 = response3.url;
   
         const newProjects = [
-          { title: 'Project 1', image: imageUrl1, link: 'project1-link' },
-          { title: 'Project 2', image: imageUrl2, link: 'project2-link' },
-          { title: 'Project 3', image: imageUrl3, link: 'project3-link' }
+          { title: 'Simon', image: imageUrl1, link: '/projects/1Simon' },
+          { title: 'Space Cat', image: imageUrl2, link: '/projects/2Cat' },
+          { title: 'Tic Tac Toe', image: imageUrl3, link: '/projects/1Simon' }
         ];
         setProjects(newProjects);
         setIsLoading(false); // Set loading state to false after fetching images

@@ -3,7 +3,6 @@ import styled, { keyframes } from 'styled-components';
 import {theme} from '../GlobalStyles';
 import myStrings from '../myIntroduction.json';// Myp subtitles convert it into db, part2
 
-
 const myString = myStrings.description;
 const myEmoji = myStrings.emoji;
 
@@ -11,6 +10,8 @@ const IntroText = () => {
   const [stringIndex, setStringIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
+  const [showEmoji, setShowEmoji] = useState(false); // State variable to trigger emoji animation
+
   useEffect(() => {
 
     const interval = setInterval(() => {
@@ -37,6 +38,7 @@ const IntroText = () => {
     <Styledp>
       <p>{currentText}</p>
     </Styledp>
+    <Myh2 key={stringIndex}>{myEmoji[stringIndex]}</Myh2>
     </>
   );
 };
@@ -50,6 +52,7 @@ const slideDown = keyframes`
     opacity: 1;
   }
 `;
+ 
 const Myh1 = styled.h1`
   position: absolute;
   color: white;
@@ -61,7 +64,7 @@ const Myh1 = styled.h1`
   font-family: ${theme.fonts.alternative};
   font-size: 35px;
   animation: ${slideDown} 1s ease forwards;
-  `;
+ `;
 
 const Styledp = styled.p`
   font-size: 18px;
@@ -72,20 +75,17 @@ const Styledp = styled.p`
   color: white;
   font-family: ${theme.fonts.primary};
 `;
+const Myh2 = styled.h2`
+  position: absolute;
+  color: white;
+  top: 55%;
+  left: 7%;
+  margin: 0;
+  z-index: 1;
+  pointer-events: none; // Make the h1 element transparent for user interactions
+  font-family: ${theme.fonts.alternative};
+  font-size: 100px;
+  animation: ${slideDown} 2s ease forwards;
+  `
 
 export default IntroText;
-// useEffect(() => {
-    
-//   const timer = setInterval(() => {
-//     setCurrentIndex((prevIndex) => {
-//       const newIndex = prevIndex + 1;
-
-//       // If the newIndex is equal to the length of the array, reset it to 0
-//       const resetIndex = newIndex === myStrings.description.length ? 0 : newIndex;
-
-//       return resetIndex;
-//     });
-//   }, 7000);
-
-//   return () => clearInterval(timer);
-// }, []);

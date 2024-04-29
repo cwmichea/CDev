@@ -40,8 +40,9 @@ const MyImage = () => {
 const ImageContainer = styled.div`
   display: flex;
   position: absolute;
-  left: 15%;
-  top: 45%
+  z-index: 1 ;
+  left: 15%; 
+  top: 45% ;
 `;
 
 const Image = styled.img`

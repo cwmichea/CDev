@@ -26,16 +26,13 @@ const Home = () => {
   return (
     <Adiv>
       {/* <Weather/> */}
-      <StarContainer>
-      <Triangle />
-      <Triangle2 />
-      <Circle />
-    </StarContainer>
-      <CanvasA color={"blue"} fullMoon={true}/>
-      <CanvasA color={"black"} fullMoon={false}/>
+      <CanvasA color={"black"} 
+               fullMoon={false} 
+               isInteractive={true} 
+               moonPos={{x: 150, y: 100}}
+               />
       <MyIntro/>
       <GraySection/>
-
     </Adiv>
   );
 };
@@ -45,47 +42,6 @@ const Adiv  = styled.div`
    margin-bottom: 0px
 `;
 
-const StarContainer = styled.div`
-  position: relative;
-  width: 100px;
-  height: 100px;
-`;
-
-// Triangle to form one side of the star
-const Triangle = styled.div`
-  width: 0;
-  height: 0;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-bottom: 80px solid yellow;
-  position: absolute;
-  top: 10px;
-  left: 25px;
-`;
-
-// Another triangle rotated to form the other side of the star
-const Triangle2 = styled.div`
-  width: 0;
-  height: 0;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-top: 80px solid yellow;
-  position: absolute;
-  top: 50px;
-  left: 25px;
-  transform: rotate(180deg);
-`;
-
-// Central circle for the star
-const Circle = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: yellow;
-  border-radius: 50%;
-  position: absolute;
-  top: 25px;
-  left: 25px;
-`;
 
 export default Home;
 

@@ -5,10 +5,8 @@ import {theme} from '../GlobalStyles';
 // import bunny from '../images/bunny1(2).png';
 import bunny from '../images/bunny1(3).png';
 
-const CanvasA = ({color, fullMoon}) => {
+const CanvasA = ({color, fullMoon, isInteractive, moonPos={x: 150, y: 100}}) => {
 /// Myp subtitles part2
-  const [bColor, setBColor] = useState(color);
-  const [isFullMoon, setisFullMoon] = useState(fullMoon);
   const [canvasSize, setCanvasSize] = useState(true);
 
 /// MyCanvas 
@@ -27,8 +25,8 @@ const CanvasA = ({color, fullMoon}) => {
     const ctx = canvas.getContext("2d");
 
     const shapes = [];
-    const numShapes = 35;
-    const shapeRadius = 9; //stars
+    const numShapes = (canvas.width /15) || 1;
+    const starRadius = 9; //stars
     const circleRadius = 4; //cicles
     const repulsionRadius = 77;//limit to draw the line
     const lineColor = "lightgrey";
@@ -36,7 +34,8 @@ const CanvasA = ({color, fullMoon}) => {
     // const numLines = 2;
     // const starColor = "yellow";
     const starColor = theme.palette.yellow;
-    const bgColor = bColor ? bColor : "black";
+    // const bgColor = bColor ? bColor : "black";
+    const bgColor = color;
 
     const drawMoon = (x, y, outerRadius, innerRadius, moonColor) => {
       ctx.beginPath();
@@ -47,7 +46,8 @@ const CanvasA = ({color, fullMoon}) => {
       if (!fullMoon) {
         ctx.beginPath();
         ctx.arc(x - (outerRadius - innerRadius) - 5, y - 7, outerRadius, 0, Math.PI * 2);
-        ctx.fillStyle = bColor ? bColor : "black";//shadow over moon
+        // ctx.fillStyle = bColor ? bColor : "black";//shadow over moon
+        ctx.fillStyle = color;//shadow over moon
         ctx.fill();
       }
     };
@@ -109,7 +109,7 @@ const CanvasA = ({color, fullMoon}) => {
           drawStar(
             shape.x,
             shape.y,
-            shapeRadius,
+            starRadius,
             starColor,
             shape.glowFactor
           );
@@ -117,7 +117,7 @@ const CanvasA = ({color, fullMoon}) => {
         } else {
           if (shape.isMoon) {
             // Drawing the moon
-             drawMoon(canvas.width - 150, 100, 40, 35, "white"); // 
+             drawMoon(canvas.width - moonPos.x, moonPos.y, 40, 35, "white"); // 
           }else{
           drawCircle(shape.x, shape.y, circleRadius, "white");}
         }
@@ -284,7 +284,12 @@ const CanvasA = ({color, fullMoon}) => {
     const newPointA = generateRandomPosition();
     const newPointB = { ...newPointA };
     setInitialPointA(newPointA);
-    animateCircles(newPointA, newPointB);
+    if (isInteractive) {
+      animateCircles(newPointA, newPointB);
+    } else {
+      console.log( "point A ", newPointA, "point B ", newPointB);
+    }
+      
   };
 
   // Dynamically update canvas width on window resize
