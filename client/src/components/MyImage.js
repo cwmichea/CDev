@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import mePic from '../images/mePic.png'
+import aStar from '../images/welcomestar.svg'
 
 const MyImage = () => {
   const [loaded, setLoaded] = useState(false);
@@ -27,6 +28,11 @@ const MyImage = () => {
         alt="Nature Image 1"
         loaded={loaded}
       />
+      <><img src={aStar} alt="star" width='260px' style={{
+              position: "absolute", top:"-38%", zIndex:"0", left:"-28%"
+              }}/>
+              <img src={aStar} alt="star" width='70px' style={{zIndex:"2" , position: "absolute", top:"60%", left:"81%"}}/>
+              </>
       {/* <Image
         src="https://source.unsplash.com/random/200x200/?water"
         alt="Water Image 2"
@@ -40,13 +46,14 @@ const MyImage = () => {
 const ImageContainer = styled.div`
   display: flex;
   position: absolute;
-  z-index: 1 ;
   left: 15%; 
   top: 45% ;
-`;
-
-const Image = styled.img`
+  // border: 2px blue solid;
+  `;
+  
+  const Image = styled.img`
   border: 1px white solid;
+  z-index: 1 ;
   border-radius: 50%;
   width: 255px; /* Adjust size as needed */
   height: 280px; /* Adjust size as needed */

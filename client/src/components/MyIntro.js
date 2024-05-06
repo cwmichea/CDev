@@ -27,16 +27,17 @@ export default function MyIntro() {
   return (
     <Div height={windowHeight}  >
       <KnowMoreButton/>
-      {show && <MyImage/>}
+      {show ? <MyImage/>
+            : <><img src={aStar} alt="star" width='260px' style={{
+              position: "absolute", top:"28%", zIndex:"0"
+              }}/>              
+              <img src={aStar} alt="star" width='55px' style={{zIndex:"10" , position: "absolute", top:"50%", left:"75%"}}/>
+              <img src={aStar} alt="star" width='70px' style={{zIndex:"10" , position: "absolute", top:"60%", left:"55%"}}/>
+              </>
+              }
       <IntroText/>
       {/* <img src={aSvg}  alt="Chile" width='300px'/> */}
-      <img src={aStar} alt="Chile" width='270px' style={{
-        position: "absolute", top:"33%", zIndex:"0"
-        }}/>
-      <img src={aStar} alt="Chile" width='70px' 
-      style={{zIndex:"10" , position: "absolute", top:"63%", left:"54%"
-    }}
-      /><br/>
+
       {/* <img src={aStar} alt="Chile" width='20px' /> */}
       {/* // style={{position:"absolute", top:}} */}
       {/* <img src={aWelcome} alt="Chile" /> */}
@@ -48,12 +49,12 @@ const Div = styled.div`
   @media screen and (max-width: 480px){ // replace by dynamic value
     width : 80vw;
     position: absolute;
-    border: blue solid 10px;
+    // border: blue solid 10px;
     top: 90px;
   }
  height: ${props => props.height}px;
  width : 50vw;
- border: red solid 10px;
+//  border: red solid 10px;
  position: absolute;
  left: 5%;
  pointer-events: none;

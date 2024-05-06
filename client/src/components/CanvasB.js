@@ -84,7 +84,14 @@ const CanvasB = () => {
 
     const animate = () => {//paint this every mili seconds
     //draw background  
-      ctx.fillStyle = bgColor;
+        // Create gradient
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, 'blue'); // Start color
+        gradient.addColorStop(1, theme.palette.yellow); // End color
+    
+        // Draw gradient
+        ctx.fillStyle = gradient;
+      // ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     // draw the stars and circles
       shapes.forEach((shape) => {

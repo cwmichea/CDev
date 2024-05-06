@@ -27,6 +27,7 @@ const Home = () => {
     <Adiv>
       {/* <Weather/> */}
       <CanvasA color={"black"} 
+               color2={"black"} 
                fullMoon={false} 
                isInteractive={true} 
                moonPos={{x: 150, y: 100}}

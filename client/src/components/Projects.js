@@ -1,5 +1,5 @@
 import React from 'react';
-import CanvasB from './CanvasB';
+import CanvasA from './CanvasA';
 import ProjectMenu from './ProjectMenu';
 import styled from 'styled-components';
 const Projects = () => {
@@ -8,7 +8,11 @@ const Projects = () => {
 
 
       <ProjectMenu/>
-      <CanvasB/>
+      <CanvasA color={"hsl(261, 100%, 8%)"} 
+               color2={"hsl(261, 100%, 8%)"} 
+               fullMoon={true} 
+               isInteractive={true} 
+               moonPos={{x: 150, y: 100}}/>
  
     </div>
   );

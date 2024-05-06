@@ -6,7 +6,7 @@ import {theme} from '../GlobalStyles';
 const Button = styled.button`
   position: absolute;
   z-index: 2;
-  top:70%;
+  top:71%;
   left:10%;
   // background-color: #007bff;
   color: white;

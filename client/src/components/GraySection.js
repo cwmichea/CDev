@@ -45,7 +45,7 @@ export default function GraySection() {
         </LanguagesContainer>
         <TextContainer>
           <p>Hi, I'm Chris! <br/> <br/>
-          ⚛ I'm a dedicated full stack developer, wholeheartedly embracing the philosophy of life-long learning. My expertise lies in JavaScript, with a special fondness for React, and I thrive on the dynamic world of web development.  <br/> <br/>
+          ⚛ I'm a dedicated full stack developer, who embraces the philosophy of life-long learning. My expertise lies in JavaScript, with a special fondness for React, but I also have exp. using  html, css, node, express, mongo and postgreSql.   <br/> <br/>
             💻 The blend of creativity, logic, and technology in web development keeps me engaged and enthusiastic to explore. It's a domain where there's always something new to uncover, maintaining my enjoyment for learning. <br/> <br/>
             📚 I'm kinda bookworm-type of person so when I’m not in front of the pc, you'll find me with my nose buried in a book, trying to expand my knowledge (It's become a bit of a hobby—or perhaps an obsession xD), but I do also enjoy staying active through jogging or gym sessions from time to time. 🏋️‍♀️
             {/* , finding a balanced lifestyle crucial for both mental and physical well-being. */}
@@ -127,6 +127,8 @@ const TextContainer = styled.div`
   p {
     margin: 0;
     padding: 0;
+    text-align: justify;
+
     }
 `;
 const Container = styled.div`

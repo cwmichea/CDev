@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa'; // Import Font Awesome icons from React Icons
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import {theme} from '../GlobalStyles';
@@ -10,26 +11,9 @@ const MyFooter = () => {
     <NavContainer>
       <img src={clogo} alt='C logo' height='52px'/>
       <NavList>
-        <NavItem>
-          <NavLinkStyled to="/" activeClassName="active">
-            Home
-          </NavLinkStyled>
-        </NavItem>
-        <NavItem>
-          <NavLinkStyled to="/about" activeClassName="active">
-            About
-          </NavLinkStyled>
-        </NavItem>
-        <NavItem>
-          <NavLinkStyled to="/projects" activeClassName="active">
-            Projects
-          </NavLinkStyled>
-        </NavItem>
-        <NavItem>
-          <NavLinkStyled to="/contact" activeClassName="active">
-            Contact
-          </NavLinkStyled>
-        </NavItem>
+        <NavItem><a target='_blank' href="https://twitter.com/donconeju"><FaTwitter /></a></NavItem>
+        <NavItem><a  target='_blank' href="https://github.com/cwmichea"><FaGithub /></a></NavItem>
+        <NavItem><a target='_blank'  href="https://linkedin.com/in/cmichea"><FaLinkedin /></a></NavItem>
       </NavList>
     </NavContainer>
   );
@@ -41,16 +25,12 @@ const NavContainer = styled.nav`
   color: ${theme.palette.primary};
   justify-content: space-between;
   display: flex;
+  flex-direction: column;
+  // justify-content: center;
   align-items: center;
-  width:  calc(100% - 0px);
-
-  img{
-    margin-left: 7%;
-    padding: 4px;
-  }
-  ul{
-    margin-right: 7%;
-  }
+  width:  100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
 `;
 
 const NavList = styled.ul`
@@ -58,31 +38,23 @@ const NavList = styled.ul`
   display: flex;
   justify-content: flex-end;
   font-family: ${theme.fonts.primary};
+  margin-top: 35px;
 
-  & li {
-    padding-right: 22px; /* Remove right padding for the last item */
-  }
+  padding: 0px;
+
   & li:last-child {
-    padding-right: 0px; /* Remove right padding for the last item */
+    margin-right: 0px
   }
 `;
 
 const NavItem = styled.li`
-  margin: 0;
-  // margin-right: 15px;
-  // padding: 0;
-  // padding-right: 22px;
-
-`;
-
-const NavLinkStyled = styled(NavLink)`
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-
-  &.active {
-    color: green;
-    color: ${theme.palette.yellow};
+  margin-right: 35px;
+  font-size: 25px;
+  svg {
+    color: white;
+    color: ${theme.palette.yellow}
   }
 `;
+
+
 export default MyFooter;
