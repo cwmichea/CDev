@@ -6,6 +6,7 @@ import styled, { keyframes } from 'styled-components';
 import Weather from './Weather';
 import GraySection from './GraySection';
 import MyIntro from './MyIntro';
+import About from './About';
 
 const Home = () => {
 
@@ -34,6 +35,7 @@ const Home = () => {
                />
       <MyIntro/>
       <GraySection/>
+      <About/>
     </Adiv>
   );
 };

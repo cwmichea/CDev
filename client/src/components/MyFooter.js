@@ -20,7 +20,7 @@ const MyFooter = () => {
 };
 
 const NavContainer = styled.nav`
-  background-color: #333;
+  background-color: ${theme.palette.dark};
   font-family: ${theme.fonts.secondary};
   color: ${theme.palette.primary};
   justify-content: space-between;

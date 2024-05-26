@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { theme } from "../GlobalStyles";
-// import bunny from '../images/bunny1(1).png';
-// import bunny from '../images/bunny1(2).png';
 import bunny from "../images/bunny1(3).png";
 
 const CanvasA = ({
@@ -10,11 +8,11 @@ const CanvasA = ({
   color2,
   fullMoon,
   isInteractive,
-  moonPos = { x: 150, y: 100 },
+  moonPos = { x: 150, y: 100 }
+  , height = 1044
 }) => {
   /// Myp subtitles part2
   const [canvasSize, setCanvasSize] = useState(true);
-
   /// MyCanvas
   const canvasRef = useRef(null);
   const [coordinates, setCoordinates] = useState({
@@ -26,6 +24,10 @@ const CanvasA = ({
   const animationRef = useRef(null);
 
   useEffect(() => {
+    console.log("from CanvasA, height", height, 
+                  typeof(height), 
+                  "window.innerHeight ",window.innerHeight,
+                "canvasRef.current.height ", canvasRef.current.height);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
@@ -36,7 +38,6 @@ const CanvasA = ({
     const repulsionRadius = 77; //limit to draw the line
     const lineColor = "lightgrey";
     const starColor = theme.palette.yellow;
-    const bgColor = color;
 
     const drawMoon = (x, y, outerRadius, innerRadius, moonColor) => {
       ctx.beginPath();
@@ -192,7 +193,7 @@ const CanvasA = ({
 
     // return () => cancelAnimationFrame(animationFrame);
     return () => {};
-  }, [canvasSize]); // Empty dependency array ensures useEffect runs once
+  }, [canvasSize, canvasRef ]); // Empty dependency array ensures useEffect runs once
 
   /// for shooting star animation when user clicks
   const generateRandomPosition = () => {
@@ -314,6 +315,10 @@ const CanvasA = ({
       if (canvas) {
         canvas.width = window.innerWidth;
         setCanvasSize((canvasSize) => !canvasSize);
+        // setHeightPlus(height + 600);
+        // canvasRef.current.height = (window.innerHeight > heightPlus) 
+        // ? window.innerHeight 
+        // : heightPlus
       }
     };
 
@@ -322,23 +327,26 @@ const CanvasA = ({
   }, []);
 
   return (
-    <Mydiv style={{ position: "relative" }}>
+    <Mydiv 
+    // height={window.innerHeight > 1034 ? window.innerHeight : height}
+    myheight={height}
+    style={{ position: "relative" }}>
       <Mycanvas
         ref={canvasRef}
         onClick={handleCanvasClick}
         width={window.innerWidth}
-        height={window.innerHeight}
+        height={window.innerHeight > 1034 ? window.innerHeight : height}
       ></Mycanvas>
       <Myimg src={bunny} alt="C logo" height="152px" />
 
-      {/* <Myp>{myStrings.description[currentIndex]}</Myp> */}
     </Mydiv>
   );
 };
 
 const Mydiv = styled.div`
   position: relative;
-  height: calc(100vh - 69px);
+  // height: 1034px;
+  height: ${props => props.myheight}px;
   background-color: black;
   // border: 1px red solid;
   margin-bottom: 0px;

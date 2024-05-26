@@ -56,14 +56,14 @@ export default function GraySection() {
   );
 }
 const Col = styled.div`
-    border: red 1px solid;
+                    // border: red 1px solid;
     width: 33%;
     display: flex;
     flex-direction: column;
     // align-items: center;
-    // justify-content: center;
+    justify-content: center;
     div{
-      border: yellow 1px solid;
+                    // border: yellow 1px solid;
       // width: 33%;
       height: 32%;
       display: flex;
@@ -78,7 +78,7 @@ const Col = styled.div`
       overflow: hidden;
       object-fit: contain; 
       section {
-        border: red 4px solid;
+                     // border: red 4px solid;
         width: 100%
         // height: 100%;
         // object-fit: cover; 
@@ -92,7 +92,7 @@ const Col = styled.div`
       // object-fit: contain;
       // height: auto;
       max-height: 170px;
-      border: blue 1px solid;
+                        // border: blue 1px solid;
     }
     p{
       margin-top: 2px;
@@ -111,35 +111,47 @@ const LanguagesContainer = styled.div`
   }
   height: auto;
   width: 49%;
-  border: 1px red solid;
-  boz-sizing: border-box;
+                        //  border: 1px red solid;
+  // box-sizing: border-box;
   display: flex;
-
-`;
-const TextContainer = styled.div`
-@media screen and (max-width: 820px){
-  width: 85%;
-  margin: 0 auto;
-}
-  border: 1px blue solid;
+  padding: 10px;
+  // align-items: center;
+  `;
+  const TextContainer = styled.div`
+  font-family: ${theme.fonts.primary};
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  @media screen and (max-width: 820px){
+    width: 85%;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+  // border: 1px blue solid;
   height: auto;
   width: 50%;
   p {
     margin: 0;
     padding: 0;
     text-align: justify;
-
+    // max-width: 700px;
     }
+    background-color: ${theme.palette.color1};
+    padding: 9px;
 `;
 const Container = styled.div`
+border: 4px solid  ${theme.palette.color1};
+border-radius: 10px;
 @media screen and (max-width: 820px){
   flex-direction: column;
   justify-content: space-between;
-  border: 1px green solid;
+                      // border: 1px green solid;
 }
   height: 90%;
   width: 85%;
-  border: 1px red solid;
+                      // border: 1px red solid;
   boz-sizing: border-box;
   margin: 0 auto;
   display: flex;
@@ -149,12 +161,14 @@ const Container = styled.div`
   color: white;
 `;
 const Div = styled.div`
-  // height: ${(props) => props.height}px;
+  // height: calc(${(props) => props.height} - 139)px ;
+  // height: ${(props) => props.height}px ;
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, #676767 60%, black);
   padding-top: 4%;
   padding-bottom: 4%;
+  // background-color: white;
   //  border: red 1px solid;
   //  box-sizing:
 `;

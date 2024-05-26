@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Card from './Card';
 // Mock data for projects
@@ -10,9 +10,10 @@ const projectsData = [
   ];
 
 // ProjectMenu component
-const ProjectMenu = () => {
+const ProjectMenu = ({setNewHeight}) => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -26,9 +27,17 @@ const ProjectMenu = () => {
         const imageUrl3 = response3.url;
   
         const newProjects = [
-          { title: 'Simon', image: imageUrl1, link: '/projects/1Simon' },
-          { title: 'Space Cat', image: imageUrl2, link: '/projects/2Cat' },
-          { title: 'Tic Tac Toe', image: imageUrl3, link: '/projects/1Simon' }
+          { title: 'Simon', 
+            image: imageUrl1, 
+            link: '/projects/1Simon' },
+
+          { title: 'Space Cat', 
+            image: imageUrl2, 
+            link: '/projects/2Cat' },
+
+          { title: 'Tic Tac Toe', 
+            image: imageUrl3, 
+            link: '/projects/1Simon' }
         ];
         setProjects(newProjects);
         setIsLoading(false); // Set loading state to false after fetching images
@@ -51,14 +60,31 @@ const ProjectMenu = () => {
     //   .catch(error => console.error('Error fetching random image:', error));
   }, []);
 
+  useEffect(() => {
+    const updateMenuHeight = () => {
+      if (menuRef.current) {
+        setNewHeight(menuRef.current.offsetHeight);
+        console.log("from projectmenu, project height ", menuRef.current.clientHeight, menuRef.current.offsetHeight);
+      }
+    };
+
+    window.addEventListener('resize', updateMenuHeight);
+    updateMenuHeight(); // Call initially to set height on component mount
+
+    return () => {
+      window.removeEventListener('resize', updateMenuHeight);
+    };
+  }, [setNewHeight, isLoading]);
+
   return (
-    <MenuContainer>
-{isLoading ? (
+    <MenuContainer ref={menuRef}>
+    {isLoading 
+      ? (
         <LoadingContainer>
           <StarSpinner />
           <LoadingText>Loading...</LoadingText>
-        </LoadingContainer>
-      ) : (
+        </LoadingContainer>) 
+      : (
         projects.map((project, index) => (
           <Card key={index} project={project} />
         ))
@@ -70,6 +96,7 @@ const ProjectMenu = () => {
 const MenuContainer = styled.div`
   position: absolute;
   top: 22%;
+  top: 235px;;
   left: 0; /* Add this to reset left position */
   right: 0; /* Add this to reset right position */
   margin: 0 auto; /* Horizontally center */

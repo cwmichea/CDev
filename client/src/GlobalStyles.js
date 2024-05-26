@@ -10,18 +10,20 @@ const theme = {
     color2Light: '#34495e',
     primaryLight: '#3498db',
     yellow: '#fcca02',
+    dark:  "#333",
   },
   fonts: {
     primary: 'Raleway, sans-serif',
     main: 'Arial, sans-serif',
     secondary: 'Georgia, serif',
     alternative: 'Single Day, cursive',
+    alternative2:  "Caveat, cursive"
   },
 };
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Single+Day&display=swap');
-
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
   body {
     font-family: ${theme.fonts.main};
     margin: 0;

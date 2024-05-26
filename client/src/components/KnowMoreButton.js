@@ -25,7 +25,8 @@ const Button = styled.button`
 
 // Define the position to scroll to
 const scrollToPosition = () => {
-  const yOffset = window.innerHeight; // You can adjust this value to scroll more or less
+  const yOffset = 30 + window.innerHeight; // You can adjust this value to scroll more or less
+  console.log("h", yOffset, window.innerHeight)
   window.scrollTo({ top: yOffset, behavior: 'smooth' });
 };
 
