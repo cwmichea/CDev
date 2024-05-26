@@ -68,5 +68,76 @@ const Contact = () => {
 };
 
 // Rest of your styled components...
+// Keyframe for button animation
+const buttonAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+// Styled components
+const FormContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  max-width: 500px; /* Limit maximum width */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: blue; /* Change border color when focused */
+  }
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: blue; /* Change border color when focused */
+  }
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  background-color: ${({ disabled }) => (disabled ? '#ccc' : 'blue')};
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  transition: background-color 0.3s;
+
+  &:hover {
+    animation: ${buttonAnimation} 0.5s forwards; /* Button animation on hover */
+  }
+`;
 
 export default Contact;
