@@ -8,6 +8,7 @@ import ProjectSimon from './components/ProjectSimon';
 import ProjectCat from './components/ProjectCat';
 import Contact from './components/Contact';
 import NotFound from './components/NotFound';
+import ProjectTic from './components/ProjectTic';
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/1Simon" element={<ProjectSimon/>} />
         <Route path="/projects/2Cat" element={<ProjectCat/>} />
-        <Route path="/projects/3Simon" element={<ProjectSimon/>} />
+        <Route path="/projects/3Tic" element={<ProjectTic/>} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

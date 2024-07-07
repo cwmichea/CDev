@@ -18,9 +18,11 @@ const ProjectMenu = ({setNewHeight}) => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response1 = await fetch('https://source.unsplash.com/random/200x200');
-        const response2 = await fetch('https://source.unsplash.com/random/201x201');
-        const response3 = await fetch('https://source.unsplash.com/random/202x202');
+        console.log("USE EFFECTS projects!");
+
+        const response1 = await fetch('https://picsum.photos/200');
+        const response2 = await fetch('https://picsum.photos/201');
+        const response3 = await fetch('https://picsum.photos/200');
         
         const imageUrl1 = response1.url;
         const imageUrl2 = response2.url;
@@ -37,10 +39,12 @@ const ProjectMenu = ({setNewHeight}) => {
 
           { title: 'Tic Tac Toe', 
             image: imageUrl3, 
-            link: '/projects/1Simon' }
+            link: '/projects/3Tic' }
         ];
         setProjects(newProjects);
         setIsLoading(false); // Set loading state to false after fetching images
+        console.log("USE EFFECTS projects", newProjects);
+      
       } catch (error) {
         console.error('Error fetching random images:', error);
         setIsLoading(false); // Set loading state to false if there's an error
@@ -75,6 +79,7 @@ const ProjectMenu = ({setNewHeight}) => {
       window.removeEventListener('resize', updateMenuHeight);
     };
   }, [setNewHeight, isLoading]);
+  console.log("projects", projects);
 
   return (
     <MenuContainer ref={menuRef}>
