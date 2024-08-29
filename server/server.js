@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 const mongoURI = process.env.MONGO_URI;
@@ -10,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect( mongoURI, {
@@ -57,7 +59,28 @@ app.get('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+// Route to handle form submission
+app.post('/submit', async (req, res) => {
+  const { firstName, lastName, work1, yearWork1, work2, yearWork2 } = req.body;
+  const db = mongoose.connection;
 
+  try {
+    // Insert the form data into the "description" collection
+    const result = await db.collection('description').insertOne({
+      firstName,
+      lastName,
+      work1,
+      yearWork1,
+      work2,
+      yearWork2
+    });
+
+    res.status(200).json({ message: 'Data submitted successfully', insertedId: result.insertedId });
+  } catch (error) {
+    console.error("Error inserting data into MongoDB:", error);
+    res.status(500).json({ error: 'Failed to submit data' });
+  }
+});
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

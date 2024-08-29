@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 // '../images/clogo.png';
 import { Link } from 'react-router-dom'; 
-import tic from '../images/bg-pattern-dark.png';
+import tic from '../images/bg-pattern-d.png';
 
 export default function ProjectTic() {
   return (
@@ -17,11 +17,23 @@ export default function ProjectTic() {
       allowFullScreen
       // scrolling="no"
     ></iframe> */}
+    <MyContainer>
+
+    </MyContainer>
     <GoBack to="/projects" >Go Back</GoBack>
     </Div>
   )
 }
 
+const MyContainer = styled.div`
+    max-width: 45rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 6px;
+  background: linear-gradient(#383624, #282617);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+`;
 
 const Div = styled.div`
 //   border: red 1px solid;
@@ -33,7 +45,8 @@ const Div = styled.div`
 //
   background: radial-gradient(circle at top,
     rgba(241, 210, 70, 0.98),
-    rgba(250, 176, 103, 0.87)
+    // rgba(250, 176, 103, 0.87)
+    black
   )
   , url(${tic});
 // background-repeat: repeat;
