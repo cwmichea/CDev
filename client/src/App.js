@@ -9,6 +9,7 @@ import ProjectCat from './components/ProjectCat';
 import Contact from './components/Contact';
 import NotFound from './components/NotFound';
 import ProjectTic from './components/ProjectTic';
+import HiddenForm from './components/HiddenForm';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/projects/2Cat" element={<ProjectCat/>} />
         <Route path="/projects/3Tic" element={<ProjectTic/>} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/contact2" element={<HiddenForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <MyFooter />

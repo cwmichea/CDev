@@ -8,39 +8,7 @@ const Contact = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-/////////
-const [formData, setFormData] = useState({
-  firstName: '',
-  lastName: '',
-  work1: '',
-  yearWork1: '',
-  work2: '',
-  yearWork2: ''
-  // ,image: null // Add image to formData state
-});
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData({ ...formData, [name]: value });
-};
-
-const handleSubmit2 = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch('http://localhost:5000/submit'
-    //await axios.post('http://localhost:5000/submit'
-    , 
-    {method: 'POST',
-headers: {
-'Content-Type': 'application/json'
-},
-body: JSON.stringify(formData)});
-    alert('Data submitted successfully');
-  } catch (error) {
-    alert('Error submitting data');
-  }
-};
-/////////
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -97,65 +65,6 @@ body: JSON.stringify(formData)});
           </SubmitButton>
         </Form>
       </FormContainer>
-      <div className="App">
-      <h2>Submit Work Data</h2>
-      <form onSubmit={handleSubmit2}>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          value={formData.firstName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          value={formData.lastName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="work1"
-          placeholder="Work 1"
-          value={formData.work1}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="yearWork1"
-          placeholder="Year of Work 1"
-          value={formData.yearWork1}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="work2"
-          placeholder="Work 2"
-          value={formData.work2}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="yearWork2"
-          placeholder="Year of Work 2"
-          value={formData.yearWork2}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-      {/* <Container>
-        <Image src="https://picsum.photos/300/200" alt={"sdsds"} />
-        <Overlay />
-      </Container> */}
-
     </>
   );
 };

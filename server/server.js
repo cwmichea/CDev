@@ -1,7 +1,9 @@
 const express = require('express');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const cors = require('cors');//allow to connect with this local server
+const multer = require('multer');
+const path = require('path');
 require('dotenv').config();
 
 const mongoURI = process.env.MONGO_URI;
@@ -10,9 +12,21 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.json());
+// app.use(express.json());
 app.use(cors());
+// Add this line to serve the uploads directory The issue is likely related to how the image URL is being used in the React component. When you're setting the src attribute of an <img> tag to the image path (e.g., uploads\1725132467670.jpg), the path is relative to the server's root directory. However, the browser needs to access it as a static asset.
+app.use('/uploads', express.static('uploads'));
+// Multer setup
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // specify the directory to save uploaded files
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // create a unique filename
+  }
+});
 
+const upload = multer({ storage: storage });
 // Connect to MongoDB
 mongoose.connect( mongoURI, {
   useNewUrlParser: true,
@@ -60,25 +74,53 @@ app.get('/', async (req, res) => {
   }
 });
 // Route to handle form submission
-app.post('/submit', async (req, res) => {
-  const { firstName, lastName, work1, yearWork1, work2, yearWork2 } = req.body;
+app.post('/submit', upload.single('image'), async (req, res) => {
+  const newdata= { ...req.body };
+  // const { domain, firstName, lastName, work1, yearWork1, work2, yearWork2 } = req.body;
   const db = mongoose.connection;
-
+  console.log("newdata", newdata);
+  console.log("req.file:", req.file); // Logs the file details
   try {
     // Insert the form data into the "description" collection
     const result = await db.collection('description').insertOne({
-      firstName,
-      lastName,
-      work1,
-      yearWork1,
-      work2,
-      yearWork2
+      ...req.body,
+      image: req.file ? req.file.path : null,
+      imagePreview: req.file ? req.file.path : null
+      // imagePath: req.file ? req.file.path : null 
+      // domain,
+      // firstName,
+      // lastName,
+      // work1,
+      // yearWork1,
+      // work2,
+      // yearWork2
     });
 
     res.status(200).json({ message: 'Data submitted successfully', insertedId: result.insertedId });
   } catch (error) {
     console.error("Error inserting data into MongoDB:", error);
     res.status(500).json({ error: 'Failed to submit data' });
+  }
+});
+
+// Route to handle fetching data by id (firstName)
+app.get('/getById/:id', async (req, res) => {
+  const { id } = req.params;
+  const db = mongoose.connection;
+
+  try {
+    // Search for a document where `firstName` matches the `id` parameter
+    const result = await db.collection('description').findOne({ firstName: id });
+
+    if (result) {
+      console.log("Gr8t! u found the one with firstName/id: ", id)
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: 'No data found with this firstName' });
+    }
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 // Start the server
