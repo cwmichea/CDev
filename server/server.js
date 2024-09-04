@@ -15,18 +15,25 @@ const PORT = process.env.PORT || 3000;
 // app.use(express.json());
 app.use(cors());
 // Add this line to serve the uploads directory The issue is likely related to how the image URL is being used in the React component. When you're setting the src attribute of an <img> tag to the image path (e.g., uploads\1725132467670.jpg), the path is relative to the server's root directory. However, the browser needs to access it as a static asset.
-app.use('/uploads', express.static('uploads'));
+// Serve the uploads directory
+app.use('/uploads', express.static('uploads')); 
 // Multer setup
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/'); // specify the directory to save uploaded files
   },
   filename: function (req, file, cb) {
+    // cb(null, Date.now() + path.extname(file.originalname)); // create a unique filename
     cb(null, Date.now() + path.extname(file.originalname)); // create a unique filename
   }
 });
-
-const upload = multer({ storage: storage });
+//for only one image to upload
+// const upload = multer({ storage: storage });
+//for more than one image
+const upload = multer({ storage: storage }).fields([
+  { name: 'imageWork1', maxCount: 1 },
+  { name: 'imageWork2', maxCount: 1 }
+]);
 // Connect to MongoDB
 mongoose.connect( mongoURI, {
   useNewUrlParser: true,
@@ -74,18 +81,21 @@ app.get('/', async (req, res) => {
   }
 });
 // Route to handle form submission
-app.post('/submit', upload.single('image'), async (req, res) => {
+// app.post('/submit', upload.single('imageWork1'), async (req, res) => {
+app.post('/submit', upload, async (req, res) => {
   const newdata= { ...req.body };
   // const { domain, firstName, lastName, work1, yearWork1, work2, yearWork2 } = req.body;
   const db = mongoose.connection;
   console.log("newdata", newdata);
-  console.log("req.file:", req.file); // Logs the file details
+  console.log("req.file:", req.files); // Logs the file details
   try {
     // Insert the form data into the "description" collection
     const result = await db.collection('description').insertOne({
       ...req.body,
-      image: req.file ? req.file.path : null,
-      imagePreview: req.file ? req.file.path : null
+      imageWork1: req.files.imageWork1 ? req.files.imageWork1[0].path : null,
+      imageWork2: req.files.imageWork2 ? req.files.imageWork2[0].path: null
+      // imageWork1: req.file ? req.file.path : null,
+      // imageWork2: req.file ? req.file.path : null
       // imagePath: req.file ? req.file.path : null 
       // domain,
       // firstName,
@@ -113,7 +123,7 @@ app.get('/getById/:id', async (req, res) => {
     const result = await db.collection('description').findOne({ firstName: id });
 
     if (result) {
-      console.log("Gr8t! u found the one with firstName/id: ", id)
+      console.log("Gr8t! u found the one with firstName/id: ", id, " result found ", result)
       res.status(200).json(result);
     } else {
       res.status(404).json({ message: 'No data found with this firstName' });

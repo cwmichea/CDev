@@ -4,9 +4,10 @@ import CanvasA from './CanvasA';
 import { theme } from '../GlobalStyles';
 
 const HiddenForm = () => {
-/////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 const [id, setId] = useState("");
 const [idImg, setIdImg] = useState("");
+const [idImg2, setIdImg2] = useState("");
 const [formData, setFormData] = useState({
   domain: '',
   firstName: '',
@@ -15,10 +16,10 @@ const [formData, setFormData] = useState({
   yearWork1: '',
   work2: '',
   yearWork2: ''
-  ,image: null // Add image to formData state
-  ,imagePreview: null // State to store the image preview URL
+  ,imageWork1: null // Add image to formData state
+  ,imageWork2: null // State to store the image preview URL
 });
-
+/////////////////////////////////////////////////////////////////////
 // const handleChange = (e) => {
 //   const { name, value } = e.target;
 // //   setFormData({ ...formData, [name]: value });
@@ -32,11 +33,16 @@ const [formData, setFormData] = useState({
 const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === 'image' && files.length > 0) {
+    if (name === 'imageWork1' && files && files.length > 0) {
       const file = files[0];
-      const imagePreview = URL.createObjectURL(file);
-      setFormData({ ...formData, image: file, imagePreview });
-    } else {
+      const imageWork1 = URL.createObjectURL(file);
+      setFormData({ ...formData, imageWork1 });
+    }  
+    else   if (name === 'imageWork2' && files && files.length > 0) {
+      const file = files[0];
+      const imageWork2 = URL.createObjectURL(file);
+      setFormData({ ...formData, imageWork2});
+    }else {
       setFormData({ ...formData, [name]: value });
     }
   };
@@ -44,13 +50,28 @@ const handleChange = (e) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   const data = new FormData();
+  console.log("data by def  ", data);
 
   // Append form data to FormData object
-  for (const key in formData) {
-    if (key !== 'imagePreview')  // siempre y cuando no sea imagePreview
-        data.append(key, formData[key]);
+  // for (const key in formData) {
+  //   if (key !== 'image')  // siempre y cuando no sea imagePreview
+  //       data.append(key, formData[key]);
+  // }
+   // Append form data to FormData object
+   for (const key in formData) {
+    if (key !== 'image') 
+    // if (key === 'imageWork1' || key === 'imageWork2') {
+    //   if (formData[key]) {
+    //     data.append(key, formData[key]);
+    //   }
+    // } else {
+      data.append(key, formData[key]);
+    // }
   }
+  data.append('imageWork1', document.querySelector('input[name="imageWork1"]').files[0])
+  data.append('imageWork2', document.querySelector('input[name="imageWork2"]').files[0])
   try {
+    console.log("data 2 send ", data);
     const response = await fetch('http://localhost:5000/submit',
     //await axios.post('http://localhost:5000/submit' 
                                 {method: 'POST',
@@ -62,7 +83,7 @@ const handleSubmit = async (e) => {
     alert('Error submitting data');
   }
 };
-//id thingy
+//id thingy////////////////////////////////////////////////////////////////////
 const handleIdChange = (e) => {
   setId(e.target.value);
 };
@@ -79,17 +100,18 @@ const handleIdSubmit = async (e) => {
       const data = await response.json();
       console.log('Data retrieved successfully:',data);
       alert('Data retrieved successfully:', data);
-      setIdImg(data.imagePreview);
+      setIdImg(data.imageWork1);
+      setIdImg2(data.imageWork2);
       // You can do something with the retrieved data, like displaying it
     } else {
       alert('No data found with this id');
     }
-    alert('Data fetched successfully');
+    // alert('Data fetched successfully');
   } catch (error) {
     alert('Error fetching data');
   }
 };
-//id
+//id////////////////////////////////////////////////////////////////////////////
   const isFormValid = formData.firstName !== '' 
 
   return (
@@ -162,7 +184,14 @@ const handleIdSubmit = async (e) => {
         />
         <Input2
           type="file"
-          name="image"
+          name="imageWork1"
+          accept="image/*"
+          onChange={handleChange}
+          required
+        />
+        <Input2
+          type="file"
+          name="imageWork2"
           accept="image/*"
           onChange={handleChange}
           required
@@ -172,13 +201,15 @@ const handleIdSubmit = async (e) => {
           </SubmitButton>
           </Form>
           <P>{formData.domain && formData.domain + "."}</P>
-          {formData.imagePreview && <Container>
-                <Image src={formData.imagePreview}/>
+          {formData.imageWork1 && <Container>
+                <Image src={formData.imageWork1}/>
+            </Container>}
+            {formData.imageWork2 && <Container>
+                <Image src={formData.imageWork2}/>
             </Container>}
       </FormContainer>
     </div>
-    {/* <Div> */}
-    {/* <FormContainer> */}
+
     <Form onSubmit={handleIdSubmit}>
           <Input
             type="text"
@@ -191,13 +222,10 @@ const handleIdSubmit = async (e) => {
           <SubmitButton type="submit" disabled={!id}>
             Query by ID
           </SubmitButton>
-          {idImg && 
-           <Image src={idImg}/>}          
-           {idImg && 
-           <Image src={`http://localhost:5000/${idImg}`}/>}
+      
+         {idImg && <Image src={`http://localhost:5000/${idImg}`}/>}
+         {idImg2 && <Image src={`http://localhost:5000/${idImg2}`}/>}
     </Form>
-    {/* </FormContainer> */}
-    {/* </Div> */}
     </>
   );
 };
@@ -333,7 +361,6 @@ const Container = styled.div`
   margin-bottom: 15px;
   padding: 10px 0px;
 
-
     &:hover img {
     // &:hover  {
       transform: scale(1.1);
@@ -350,25 +377,5 @@ const Image = styled.img`
   object-fit: cover;
   transition: transform 0.3s ease-in-out;  
 `;
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-`;
-const Div = styled.div`
-    position: absolute;
-  top: 0;
-  // left: 0;
-  // right: 10;
-  // bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  border: red 2px solid;
-`
+
 export default HiddenForm;
