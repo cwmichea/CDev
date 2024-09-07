@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import CanvasA from './CanvasA';
 import { theme } from '../GlobalStyles';
@@ -19,6 +19,15 @@ const [formData, setFormData] = useState({
   ,imageWork1: null // Add image to formData state
   ,imageWork2: null // State to store the image preview URL
 });
+const [entries, setEntries] = useState([]);
+
+useEffect(() => {
+  // Fetch the JSON data from the public folder
+  fetch('/data.json')
+    .then((response) => response.json())
+    .then((data) => setEntries(data.entries))
+    .catch((error) => console.error('Error fetching JSON:', error));
+}, []);
 /////////////////////////////////////////////////////////////////////
 // const handleChange = (e) => {
 //   const { name, value } = e.target;
@@ -222,10 +231,33 @@ const handleIdSubmit = async (e) => {
           <SubmitButton type="submit" disabled={!id}>
             Query by ID
           </SubmitButton>
-      
+          <EntriesContainer>
          {idImg && <Image src={`http://localhost:5000/${idImg}`}/>}
          {idImg2 && <Image src={`http://localhost:5000/${idImg2}`}/>}
+         </EntriesContainer>
     </Form>
+    <EntriesContainer>
+        {entries.map((entry) => (
+          <EntryCell key={entry.id}>
+            <p>ID: {entry.id}</p>
+            <p>Domain: {entry.domain}</p>
+            <p>First Name: {entry.firstName}</p>
+            <p>Last Name: {entry.lastName}</p>
+            <Flexbox>
+            <div>
+              <p>Work 1: {entry.work1}</p>
+              <p>Year Work 1: {entry.yearWork1}</p>
+              {entry.imageWork1 && <Image src={`http://localhost:5000/${entry.imageWork1}`}/>}
+            </div>
+            <div>
+            <p>Work 2: {entry.work2}</p>
+            <p>Year Work 2: {entry.yearWork2}</p>
+            {entry.imageWork2 && <Image src={`http://localhost:5000/${entry.imageWork2}`}/>}
+            </div>
+            </Flexbox>
+          </EntryCell>
+        ))}
+      </EntriesContainer>
     </>
   );
 };
@@ -377,5 +409,45 @@ const Image = styled.img`
   object-fit: cover;
   transition: transform 0.3s ease-in-out;  
 `;
+// Styled components for display
+const EntriesContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  background-color: rgb(43, 42, 51);
+`;
 
+const EntryCell = styled.div`
+  // border: 1px solid #ccc;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 12px;
+  padding: 15px;
+  background-color: rgba(66, 65, 77, 1);
+  color: lightgrey;
+  width: 300px;
+  text-align: center;
+  rgba(66, 65, 77, 1)
+  div {
+  }
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-top: 10px;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+`;
+
+const Flexbox =  styled.div`
+  display: flex;
+  flex-direcion: row;
+  border: 1px red solid;
+  text-align: center;
+  div{ margin: 0 auto;} 
+
+`
 export default HiddenForm;

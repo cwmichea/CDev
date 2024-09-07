@@ -1,0 +1,40 @@
+{
+  "entries": [
+    {
+      "id": "1725580287096",
+      "domain": "Author",
+      "firstName": "5",
+      "lastName": "5",
+      "work1": "5",
+      "yearWork1": "5",
+      "work2": "5",
+      "yearWork2": "5",
+      "imageWork1": "uploads\\1725580287088.jpg",
+      "imageWork2": "uploads\\1725580287089.JPG"
+    },
+    {
+      "id": "1725583949130",
+      "domain": "Author",
+      "firstName": "w",
+      "lastName": "w",
+      "work1": "w",
+      "yearWork1": "1",
+      "work2": "w",
+      "yearWork2": "1",
+      "imageWork1": "uploads\\1725583949124.jpg",
+      "imageWork2": "uploads\\1725583949124.jpg"
+    },
+    {
+      "id": "1725584177935",
+      "domain": "",
+      "firstName": "9",
+      "lastName": "9",
+      "work1": "9",
+      "yearWork1": "9",
+      "work2": "9",
+      "yearWork2": "9",
+      "imageWork1": "uploads\\1725584177930.jpg",
+      "imageWork2": "uploads\\1725584177931.jpg"
+    }
+  ]
+}
