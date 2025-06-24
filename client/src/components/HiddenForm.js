@@ -138,8 +138,11 @@ const handleIdSubmit = async (e) => {
                     onChange={handleChange}>
             <option value={null}></option>
             <option value={"Artist"}>Artist</option>
+            <option value={"Architect"}>Architect</option>
             <option value={"Author"}>Author</option>
             <option value={"Composer"}>Composer</option>
+            <option value={"Libretist"}>Libretist</option>
+            <option value={"Philosopher"}>Philosopher</option>
         </Select>
         <Input1
           type="text"
@@ -209,6 +212,7 @@ const handleIdSubmit = async (e) => {
             Submit
           </SubmitButton>
           </Form>
+          {/* show what's gonna be submitted */}
           <P>{formData.domain && formData.domain + "."}</P>
           {formData.imageWork1 && <Container>
                 <Image src={formData.imageWork1}/>
@@ -236,7 +240,31 @@ const handleIdSubmit = async (e) => {
          {idImg2 && <Image src={`http://localhost:5000/${idImg2}`}/>}
          </EntriesContainer>
     </Form>
-    <EntriesContainer>
+
+    <EntriesContainer>{Object.values(entries).map(entryArray => 
+    (<h3 style={{color:"lightgrey"}}>{entryArray[0] && (entryArray[0].domain + 's')} {entryArray.map((entry) => (
+      <EntryCell key={entry.id}>
+        {/* <p>ID: {entry.id}</p> */}
+        <p>Domain: {entry.domain}</p>
+        <Box>
+        <p>{entry.firstName},&nbsp;</p>
+        <p style={{color:"red", fontSize: "24px"}}>{entry.lastName}</p>
+        </Box>
+        <Flexbox>
+        <div>
+          <p style={{ fontSize: "14px"}}>{entry.work1}</p>
+          <p>{entry.yearWork1}</p>
+          {entry.imageWork1 && <Image src={`http://localhost:5000/${entry.imageWork1}`}/>}
+        </div>
+        <div>
+        <p style={{ fontSize: "14px"}}>{entry.work2}</p>
+        <p>{entry.yearWork2}</p>
+        {entry.imageWork2 && <Image src={`http://localhost:5000/${entry.imageWork2}`}/>}
+        </div>
+        </Flexbox>
+      </EntryCell>
+    ))}</h3>))}</EntriesContainer>
+    {/* <EntriesContainer>
         {entries.map((entry) => (
           <EntryCell key={entry.id}>
             <p>ID: {entry.id}</p>
@@ -257,7 +285,29 @@ const handleIdSubmit = async (e) => {
             </Flexbox>
           </EntryCell>
         ))}
-      </EntriesContainer>
+      </EntriesContainer> */}
+   {/* <EntriesContainer>
+        {entries.map((entry) => (
+          <EntryCell key={entry.id}>
+            <p>ID: {entry.id}</p>
+            <p>Domain: {entry.domain}</p>
+            <p>First Name: {entry.firstName}</p>
+            <p>Last Name: {entry.lastName}</p>
+            <Flexbox>
+            <div>
+              <p>Work 1: {entry.work1}</p>
+              <p>Year Work 1: {entry.yearWork1}</p>
+              {entry.imageWork1 && <Image src={`http://localhost:5000/${entry.imageWork1}`}/>}
+            </div>
+            <div>
+            <p>Work 2: {entry.work2}</p>
+            <p>Year Work 2: {entry.yearWork2}</p>
+            {entry.imageWork2 && <Image src={`http://localhost:5000/${entry.imageWork2}`}/>}
+            </div>
+            </Flexbox>
+          </EntryCell>
+        ))}
+      </EntriesContainer> */}
     </>
   );
 };
@@ -448,6 +498,14 @@ const Flexbox =  styled.div`
   border: 1px red solid;
   text-align: center;
   div{ margin: 0 auto;} 
-
 `
+const Box =  styled.div`
+  display: flex;
+  flex-direcion: row;
+  border: 1px red solid;
+  text-align: center;
+  justify-content: center;
+  align-items:  end;
+`
+
 export default HiddenForm;

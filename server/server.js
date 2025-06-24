@@ -19,7 +19,7 @@ app.use(express.json());
 // app.use(bodyParser.json());
 
 app.use(cors());
-// Add this line to serve the uploads directory The issue is likely related to how the image URL is being used in the React component. When you're setting the src attribute of an <img> tag to the image path (e.g., uploads\1725132467670.jpg), the path is relative to the server's root directory. However, the browser needs to access it as a static asset.
+// Add this line to serve the uploads directory The issue is likely related to how the image URL is being used in the React component. When you're setting the src attribute of an <img> tag to the image path (e.g., uploads\1725132467670.jpg), the path is relative to the server's root directory. However, the browser needs to access 2it as a static asset.
 // Serve the uploads directory
 app.use('/uploads', express.static('uploads')); 
 // Multer setup
@@ -72,7 +72,14 @@ mongoose.connect( mongoURI, {
 const dataFilePath = path.join(__dirname, '../client/public/data.json');
 if (!fs.existsSync(dataFilePath)) {
   // If the file doesn't exist, create it with an empty array or initial data
-  const initialData = { entries: [] };
+  // const initialData = { entries: [] };
+  const initialData = { entries: {Artist:[],
+                                  Architect:[],
+                                  Author:[],
+                                  Composer:[],
+                                  Libretist:[],
+                                  Philosopher:[]
+  }};
   fs.writeFileSync(dataFilePath, JSON.stringify(initialData, null, 2), 'utf8');
   console.log('data.json file created');
 }
@@ -111,6 +118,7 @@ app.post('/submit', upload, async (req, res) => {
   // const { domain, firstName, lastName, work1, yearWork1, work2, yearWork2 } = req.body;
   const db = mongoose.connection;
   console.log("req.body/newdata: ", newdata);
+  console.log("req.body/newdata.domain: ", newdata.domain);
   console.log("req.file: ", req.files); // Logs the file details
   const data = readData();
 
@@ -122,8 +130,32 @@ app.post('/submit', upload, async (req, res) => {
     imageWork2: req.files.imageWork2 ? req.files.imageWork2[0].path: null// Add other fields as needed
   };
   console.log("newObject ", newObject);
+
   // Append the new object to the array stored in the JSON object
-  data.entries.push(newObject);
+  // data.entries.push(newObject);
+  switch (newdata.domain) {
+    case "Artist":
+        data.entries.Artist.push(newObject);
+      break;
+    case "Architect":
+        data.entries.Architect.push(newObject);
+      break;
+    case "Author":
+        data.entries.Author.push(newObject);
+      break;
+    case "Composer":
+        data.entries.Composer.push(newObject);
+      break;
+    case "Libretist":
+        data.entries.Libretist.push(newObject);
+      break;
+    case "Philosopher":
+        data.entries.Philosopher.push(newObject);
+      break;
+    default:
+      break;
+  }
+  // data.entries.push(newObject);
   // console.log("newObject ", newObject);
   
   // Save the updated data back to the frontend/public/data.json file

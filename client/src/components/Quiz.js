@@ -93,7 +93,7 @@ const Quiz = () => {
     {/* <audio ref={wrongAudioRef} src={wrongSound} /> */}
       {!isGameActive ? (
         <Div>
-          <h1>Start the Quiz</h1>
+          <h1>Start the Quiz</h1> 
           <label>How many questions do you want to answer?</label>
           <form onSubmit={handleStartGame}>
           <Input

@@ -11,7 +11,8 @@ export default function ProjectCat() {
     title="Game" 
     // width="100%" 
     // height="100%"
-    style={{ width: '100%', height: '100%', border: 'none' }}
+    style={{ width: '100%', height: '100%', 
+      border: 'none' , margin: '0 auto'}}
       allowFullScreen
       // scrolling="no"
     ></iframe>
@@ -22,12 +23,23 @@ export default function ProjectCat() {
 
 
 const Div = styled.div`
-//   border: red 1px solid;
+  border: red 1px solid;
 //   height: 800px;
 //   height: 100vh;
   height: calc(100vh - 120px);
   text-align: center; /* Center content horizontally */
 //   height: '100%'
+  height: calc(100vh - 120px);
+  width: 84vw;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // border: 2px red solid;
+  // border-left: 0px;
+  // border-right: 0px;
+  // text-align: center; /* Center content horizontally */
 `
 const GoBack = styled(Link)`
   display: inline-block;

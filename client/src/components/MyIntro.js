@@ -27,7 +27,7 @@ export default function MyIntro() {
   return (
     <Div height={windowHeight}  >
       <KnowMoreButton/>
-      {show ? <MyImage/>
+      {show ? null
             : <><img src={aStar} alt="star" width='260px' style={{
               position: "absolute", top:"28%", zIndex:"0"
               }}/>              

@@ -45,14 +45,15 @@ const MyImage = () => {
 // Styled components
 const ImageContainer = styled.div`
   display: flex;
-  position: absolute;
-  left: 15%; 
-  top: 45% ;
+  // position: absolute;
+  // left: 15%; 
+  // top: 45% ;
+
   // border: 2px blue solid;
   `;
   
   const Image = styled.img`
-  border: 1px white solid;
+  // border: 1px white solid;
   z-index: 1 ;
   border-radius: 50%;
   width: 255px; /* Adjust size as needed */

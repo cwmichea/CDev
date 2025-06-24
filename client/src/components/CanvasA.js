@@ -11,6 +11,21 @@ const CanvasA = ({
   moonPos = { x: 150, y: 100 }
   , height = 1044
 }) => {
+  const [dynamicHeight, setDynamicHeight] = useState(window.innerHeight - 25);
+  useEffect(() => {
+  const handleResize = () => {
+    const dynHeight = window.innerWidth < 530 ? 947 : window.innerHeight - 104;
+    setDynamicHeight(dynHeight);
+  };
+  // () => {
+  //   setDynamicHeight(window.innerHeight - 104);
+  // };
+const dynHeight = window.innerWidth < 540 ? 747 : window.innerHeight;
+
+  handleResize(); // set initial value
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
   /// Myp subtitles part2
   const [canvasSize, setCanvasSize] = useState(true);
   /// MyCanvas
@@ -325,7 +340,6 @@ const CanvasA = ({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   return (
     <Mydiv 
     // height={window.innerHeight > 1034 ? window.innerHeight : height}
@@ -335,7 +349,8 @@ const CanvasA = ({
         ref={canvasRef}
         onClick={handleCanvasClick}
         width={window.innerWidth}
-        height={window.innerHeight > 1034 ? window.innerHeight : height}
+        // height={window.innerHeight > 1034 ? window.innerHeight : height}
+        height={dynamicHeight}
       ></Mycanvas>
       <Myimg src={bunny} alt="C logo" height="152px" />
 
@@ -345,8 +360,9 @@ const CanvasA = ({
 
 const Mydiv = styled.div`
   position: relative;
+  height: ${({ height }) => height}px;
   // height: 1034px;
-  height: ${props => props.myheight}px;
+  // height: ${props => props.myheight}px;
   background-color: black;
   // border: 1px red solid;
   margin-bottom: 0px;
