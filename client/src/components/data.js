@@ -2,14 +2,14 @@ const data = [
   {
     id: "Ask1",
     verb: "Ask Away",
-    hint: "go on ask!",
-    meaning: "dale, pregunta",
+    hint: ["go on ask!"],
+    meaning: ["dale, pregunta"],
   },
   {
     id: "Break1",
     verb: "Break Down",
-    hint: "start crying / fail",
-    meaning: "derrumbarse emocionalmente",
+    hint: ["start crying, fail", "stop working"],
+    meaning: ["derrumbarse emocionalmente","echarse a perder"],
   },
   {
     id: "Call1",

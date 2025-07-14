@@ -34,6 +34,7 @@ const storage = multer.diskStorage({
 });
 //for only one image to upload
 // const upload = multer({ storage: storage });
+
 //for more than one image
 const upload = multer({ storage: storage }).fields([
   { name: 'imageWork1', maxCount: 1 },
@@ -52,7 +53,14 @@ mongoose.connect( mongoURI, {
     if (err) {
       console.error("Error fetching data from MongoDB:", err);
     } else {
-      console.log("Data from MongoDB:", result);
+      console.log("Data from MongoDB description collection:", result);
+    }
+  });
+    db.collection('verbs').findOne({}, (err, result) => {
+    if (err) {
+      console.error("Error fetching data from MongoDB:", err);
+    } else {
+      console.log("Data from MongoDB verbs collection:", result);
     }
   });
 })
@@ -69,7 +77,14 @@ mongoose.connect( mongoURI, {
 
 // STORING IN THE FRONTEND/////////////////
 // Path to save data in the frontend folder
+const dataFilePath2 = path.join(__dirname, '../client/public/dataVerb.json');
 const dataFilePath = path.join(__dirname, '../client/public/data.json');
+if (!fs.existsSync(dataFilePath2)){
+  const initialData2 = { entries: [
+  ]};
+  fs.writeFileSync(dataFilePath2, JSON.stringify(initialData2, null, 2), 'utf8');
+  console.log('data.json file created');
+} 
 if (!fs.existsSync(dataFilePath)) {
   // If the file doesn't exist, create it with an empty array or initial data
   // const initialData = { entries: [] };
@@ -88,6 +103,10 @@ const readData = () => {
   const data = fs.readFileSync(dataFilePath, 'utf8');
   return JSON.parse(data);
 };
+const readData2 = () => {
+  const data = fs.readFileSync(dataFilePath2, 'utf8');
+  return JSON.parse(data);
+};
 
 // Function to write data to the JSON file
 const writeData = (data) => {
@@ -95,6 +114,7 @@ const writeData = (data) => {
 };
 ///////////////////////////////////////////
 // Example route
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 app.get('/', async (req, res) => {
   try {
     // Example Axios request
@@ -111,6 +131,8 @@ app.get('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 // Route to handle form submission
 // app.post('/submit', upload.single('imageWork1'), async (req, res) => {
 app.post('/submit', upload, async (req, res) => {
@@ -161,21 +183,11 @@ app.post('/submit', upload, async (req, res) => {
   // Save the updated data back to the frontend/public/data.json file
   writeData(data);
   try {
-    // Insert the form data into the "description" collection
+    // Insert the form data into the "description" collection in MongoDb
     const result = await db.collection('description').insertOne({
       ...req.body,
       imageWork1: req.files.imageWork1 ? req.files.imageWork1[0].path : null,
       imageWork2: req.files.imageWork2 ? req.files.imageWork2[0].path: null
-      // imageWork1: req.file ? req.file.path : null,
-      // imageWork2: req.file ? req.file.path : null
-      // imagePath: req.file ? req.file.path : null 
-      // domain,
-      // firstName,
-      // lastName,
-      // work1,
-      // yearWork1,
-      // work2,
-      // yearWork2
     });
 
     res.status(200).json({ message: 'Data submitted successfully', insertedId: result.insertedId , newObject});
@@ -207,12 +219,12 @@ app.get('/getById/:id', async (req, res) => {
   }
 });
 
-
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // POST route to handle form submission
 app.post('/submit-form', (req, res) => {
   const { firstName, lastName, email, otherFields } = req.body; // Destructure your form fields
   const data = readData();
-
+  console.log("req.body ", req.body)
   // Create a new object with an identifier and form data
   const newObject = {
     id: Date.now().toString(), // Generate a unique identifier
@@ -230,7 +242,68 @@ app.post('/submit-form', (req, res) => {
 
   res.status(201).json({ message: 'Data successfully saved', newObject });
 });
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //
+//verbs
+const verbSchema = new mongoose.Schema({
+  id: String,
+  title: String,
+  verb: String,
+  hint: [String],
+  meaning: [String]
+});
+const Verb = mongoose.model('Verb', verbSchema)
+// API endpoint to get all verbs
+app.get('/api/verbs', async (req, res) => {
+  try {
+    const verbs = await Verb.find({});
+    console.log(verbs)
+    res.json(verbs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+///////////////////////////////////////////////////////////////
+// POST endpoint to add new verb
+app.post('/api/verbs', async (req, res) => {
+  try {
+    const newVerb = req.body;
+    
+    // Validate required fields
+    if (!newVerb.title || !newVerb.verb || !newVerb.meaning || !newVerb.meaning.length) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Connect to MongoDB
+    // const client = new MongoClient(mongoURI);
+    // await client.connect();
+    // const db = client.db("dbName");
+    // const collection = db.collection('verbs');
+    const db = mongoose.connection;
+    const result = await db.collection('verbs').insertOne({
+      ...newVerb
+    });
+    // Add to MongoDB
+    // const mongoResult = await collection.insertOne(newVerb);
+    console.log('Added to MongoDB newVerb:', newVerb, "result ",result);
+
+    // Add to JSON file
+    const jsonData = readData2();
+    jsonData.entries.push(newVerb);
+    console.log("jsonData ", jsonData);
+    // Make sure to use writeData2 (not writeData) for the verbs JSON file
+    fs.writeFileSync(dataFilePath2, JSON.stringify(jsonData, null, 2), 'utf8');
+    // writeData(jsonData);
+
+    // Close MongoDB connection
+    // await client.close();
+
+    res.status(201).json(newVerb);
+  } catch (err) {
+    console.error("Error adding verb:", err);
+    res.status(500).json({ error: 'Failed to add verb' });
+  }
+});
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

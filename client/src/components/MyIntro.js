@@ -58,7 +58,7 @@ const Div = styled.div`
  position: absolute;
  left: 5%;
  pointer-events: none;
- top: 0%
+ top: 20px
 //  background: linear-gradient(to bottom, #676767 60%, black);
 //  border: red 1px solid;
 //  box-sizing: 

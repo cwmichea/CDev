@@ -1,60 +1,18 @@
 {
-  "entries": {
-    "Artist": [
-      {
-        "id": "1727672706408",
-        "domain": "Artist",
-        "firstName": "Leonardo",
-        "lastName": "DaVinci",
-        "work1": "The Last Supper",
-        "yearWork1": "1498",
-        "work2": "Mona Lisa",
-        "yearWork2": "1506",
-        "imageWork1": "uploads\\1727672706401.JPG",
-        "imageWork2": "uploads\\1727672706402.JPG"
-      },
-      {
-        "id": "1727760253155",
-        "domain": "Artist",
-        "firstName": ".",
-        "lastName": "Donatello",
-        "work1": "David",
-        "yearWork1": "1416",
-        "work2": "Gattamelata",
-        "yearWork2": "1453",
-        "imageWork1": "uploads\\1727760253144.JPG",
-        "imageWork2": "uploads\\1727760253145.JPG"
-      },
-      {
-        "id": "1727760463977",
-        "domain": "Artist",
-        "firstName": ".",
-        "lastName": "Fra Angelico",
-        "work1": "The Last Judgment",
-        "yearWork1": "1430",
-        "work2": "Annunciation",
-        "yearWork2": "1435",
-        "imageWork1": "uploads\\1727760463967.JPG",
-        "imageWork2": "uploads\\1727760463970.JPG"
-      }
-    ],
-    "Architect": [
-      {
-        "id": "1727640807128",
-        "domain": "Architect",
-        "firstName": "m",
-        "lastName": "m",
-        "work1": "m",
-        "yearWork1": "2",
-        "work2": "m",
-        "yearWork2": "1",
-        "imageWork1": "uploads\\1727640807116.JPG",
-        "imageWork2": "uploads\\1727640807116.JPG"
-      }
-    ],
-    "Author": [],
-    "Composer": [],
-    "Libretist": [],
-    "Philosopher": []
-  }
+  "entries": [
+    {
+      "id": "x189",
+      "title": "x",
+      "verb": "xxx",
+      "meaning": [
+        "xx"
+      ],
+      "hint": [
+        "x"
+      ],
+      "example": [
+        "x"
+      ]
+    }
+  ]
 }

@@ -11,6 +11,7 @@ import NotFound from './components/NotFound';
 import ProjectTic from './components/ProjectTic';
 import HiddenForm from './components/HiddenForm';
 import Quiz from './components/Quiz';
+import Quiz1 from './components/Quiz1';
 import Quiz2 from './components/Quiz2';
 
 const App = () => {
@@ -26,7 +27,8 @@ const App = () => {
         <Route path="/projects/3Tic" element={<ProjectTic/>} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/contact2" element={<HiddenForm />} />
-        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/q" element={<Quiz />} />
+        <Route path="/q1" element={<Quiz1 />} />
         <Route path="/q2" element={<Quiz2 />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
